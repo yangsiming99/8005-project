@@ -29,9 +29,6 @@ def main():
 
         make_socket(SERVER, PORT, pwList)
 
-        # while True:
-        #     print('hi')
-
 def password_generation(list, limit, group):
     BA = BruteForceAttack(list, limit,  group)
     BA.initiateAttack()
@@ -112,7 +109,8 @@ def userFilter(usersList, targets):
                 'user': temp[0],
                 'hash': temp[1],
                 'salt': temp[1][:salt],
-                'found': False
+                'found': False,
+                'password': ''
             }
             filterList.append(info)
         except ValueError:

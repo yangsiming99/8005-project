@@ -14,6 +14,8 @@ def main():
     global SERVER 
     global PORT 
     global targets
+    global STOP
+    STOP = False
     # SERVER = params.server
     # PORT = params.PORT
     SERVER= '10.0.0.45'
@@ -21,28 +23,20 @@ def main():
 
     count = 0
 
-    KillSwitch = False
-
-
-    # initial = send(status_codes['next_set'])
-    # targets = initial['targets']
-    # print(targets)
-
-    # print(initial)
-    # guessPasswords(initial['section'])
-
-    while KillSwitch != True:
+    while True:
         if (count == 0): 
             resp = send(status_codes['initial'])
             targets = resp['targets']
+            print(targets)
         else:
             resp = send(status_codes['next_set'])
 
         guessPasswords(resp['section'])
+        if STOP == True:
+            break
         count += 1
-
-
-
+    
+    print(targets)
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -65,12 +59,17 @@ def send(status):
     return resp
 
 def guessPasswords(pwList):
+    global STOP
+    global targets
+
     for guess in pwList:
         for user in targets:
-            encrypted = crypt.crypt(guess, user['salt'])
-            if encrypted == user['hash']:
-                # Bruh wtf, I can't stop the while loop above
-                print('aooga')
+            if(user['found'] == False):
+                encrypted = crypt.crypt(guess, user['salt'])
+                if encrypted == user['hash']:
+                    STOP = True
+                    user['found'] = True
+                    user['password'] = guess
 
 if __name__ == '__main__':
     main()
