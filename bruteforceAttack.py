@@ -2,13 +2,14 @@ import crypt
 import time
 
 class BruteForceAttack:
-    def __init__(self, pwList, limit, group):
+    def __init__(self, pwList, limit, group, status):
         self.charset = 'abcdefghijklmnopqrstuvwxyz'
         self.limit = limit
         self.pwList = pwList
         self.group = group
         self.section = []
         self.counter = 0
+        self.status = status
 
     def initiateAttack(self):
         for i in range(1, len(self.charset) + 1):
@@ -21,7 +22,10 @@ class BruteForceAttack:
         # Gets Correct String Length
         if len(current) == length:
             self.section.append(current)
-            if self.counter > self.limit:
+            if self.status['found'] == True:
+                quit()
+                return
+            elif self.counter > self.limit:
                 self.pwList.append(self.section)
                 return True
             elif self.counter % self.group == 0:
