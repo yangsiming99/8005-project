@@ -52,7 +52,7 @@ def send(status, data="test"):
         s.send(json.dumps(to_send).encode())
         temp = ''
         data = s.recv(1024)
-        print(data)
+        # print(data)
         temp += data.decode('ascii')
         resp = json.loads(temp)
         print(resp)
