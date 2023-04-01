@@ -55,7 +55,7 @@ def send(status, data="test"):
         # print(data)
         temp += data.decode('ascii')
         resp = json.loads(temp)
-        print(resp)
+        # print(resp)
         return resp
 
 def guessPasswords(pwList):
