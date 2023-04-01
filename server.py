@@ -61,20 +61,16 @@ def client_thread(conn, addr, pwList, pwstatus):
             else:
                 status = int(message['status'])
                 if pwstatus['found'] == True:
-                    print("1")
                     conn.sendall(json.dumps({'found': True}).encode())
                 elif status == 0:
                     # should send the userlist + first set of passwords
-                    print("2")
                     toSend = {'section': section, 'targets': targetInfo}
                     conn.sendall(json.dumps(toSend).encode())
                 elif status == 1:
-                    print("3")
                     # should send next set of passwords
                     toSend = {'section': section}
                     conn.sendall(json.dumps(toSend).encode())
                 elif status == 2:
-                    print("4")
                     # should mark a boolean as true and ^ the about should indicate finish
                     userInfo = message['data'][0]
                     print('=========================================')
